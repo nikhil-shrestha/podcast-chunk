@@ -6,9 +6,32 @@ import java.util.Scanner;
 
 public class Main {
 
+    public static void splitLargeFile(final String fileName,
+                                      final String extension,
+                                      final int maxLines) {
+
+        try (Scanner s = new Scanner(new FileReader(String.format("%s.%s", fileName, extension)))) {
+            int file = 0;
+            int cnt = 0;
+            BufferedWriter writer = new BufferedWriter(new FileWriter(String.format("%s_%d.%s", fileName, file, extension)));
+
+            while (s.hasNext()) {
+                writer.write(s.next() + System.lineSeparator());
+                if (++cnt == maxLines && s.hasNext()) {
+                    writer.close();
+                    writer = new BufferedWriter(new FileWriter(String.format("%s_%d.%s", fileName, ++file, extension)));
+                    cnt = 0;
+                }
+            }
+            writer.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void myFunction(int lines, int files) throws FileNotFoundException, IOException {
-       String inputfile = "file.csv";
-       BufferedReader br = new BufferedReader(new FileReader(inputfile)); //reader for input file intitialized only once
+        String inputfile = "file.csv";
+        BufferedReader br = new BufferedReader(new FileReader(inputfile)); //reader for input file intitialized only once
 
         // URL path = Main.class.getResource("file.csv");
         // BufferedReader br = new BufferedReader(new FileReader(path.getFile())); //reader for input file intitialized only once
@@ -20,8 +43,10 @@ public class Main {
                 strLine = br.readLine();
                 if (strLine != null) {
                     String strar[] = strLine.split(",");
-                    out.write(strar[0]);   //acquring the first column
-                    out.newLine();
+                    if (!strar[0].equals("id")) {     // removing heading row of the csv file
+                        out.write(strLine);
+                        out.newLine();
+                    }
                 }
             }
             out.close();
@@ -32,11 +57,8 @@ public class Main {
         try {
             int lines = 10;  //set this to whatever number of lines you need in each file
             int count = 0;
-           String inputfile = "file.csv";
-           File file = new File(inputfile);
-
-            // URL path = Main.class.getResource("file.csv");
-            // File file = new File(path.getFile());
+            String inputfile = "file.csv";
+            File file = new File(inputfile);
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {  //counting the lines in the input file
                 scanner.nextLine();
