@@ -7,11 +7,11 @@ import java.util.Scanner;
 public class Main {
 
     public static void myFunction(int lines, int files) throws FileNotFoundException, IOException {
-//        String inputfile = "file.csv";
-//        BufferedReader br = new BufferedReader(new FileReader(inputfile)); //reader for input file intitialized only once
+       String inputfile = "file.csv";
+       BufferedReader br = new BufferedReader(new FileReader(inputfile)); //reader for input file intitialized only once
 
-        URL path = Main.class.getResource("file.csv");
-        BufferedReader br = new BufferedReader(new FileReader(path.getFile())); //reader for input file intitialized only once
+        // URL path = Main.class.getResource("file.csv");
+        // BufferedReader br = new BufferedReader(new FileReader(path.getFile())); //reader for input file intitialized only once
         String strLine = null;
         for (int i = 1; i <= files; i++) {
             FileWriter fstream1 = new FileWriter("FileNumber_" + i + ".csv"); //creating a new file writer.
@@ -32,11 +32,11 @@ public class Main {
         try {
             int lines = 10;  //set this to whatever number of lines you need in each file
             int count = 0;
-//            String inputfile = "file.csv";
-//            File file = new File(inputfile);
+           String inputfile = "file.csv";
+           File file = new File(inputfile);
 
-            URL path = Main.class.getResource("file.csv");
-            File file = new File(path.getFile());
+            // URL path = Main.class.getResource("file.csv");
+            // File file = new File(path.getFile());
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {  //counting the lines in the input file
                 scanner.nextLine();
